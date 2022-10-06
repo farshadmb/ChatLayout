@@ -84,7 +84,7 @@ public final class SetActor<Option: SetAlgebra, ReactionType> {
     }
 
     private func optionsChanged(oldOptions: Option) {
-        let reactions = reactions
+        let reactions = self.reactions
         let onChangeReactions = reactions.filter {
             guard case .onChange = $0.action else {
                 return false

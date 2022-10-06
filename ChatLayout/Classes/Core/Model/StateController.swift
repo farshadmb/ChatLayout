@@ -114,10 +114,11 @@ final class StateController<Layout: ChatLayoutRepresentation> {
             locationHeight = layoutAfterUpdate?.sections.last?.locationHeight
         }
 
-        guard let locationHeight = locationHeight else {
+        guard let height = locationHeight else {
             return 0
         }
-        return locationHeight + layoutRepresentation.settings.additionalInsets.bottom
+        
+        return height + layoutRepresentation.settings.additionalInsets.bottom
     }
 
     func layoutAttributesForElements(in rect: CGRect,
@@ -181,7 +182,7 @@ final class StateController<Layout: ChatLayoutRepresentation> {
 
         let attributes: ChatLayoutAttributes
         let itemIndexPath = itemPath.indexPath
-        let layout = layout(at: state)
+        let layout = self.layout(at: state)
 
         switch kind {
         case .header:
@@ -264,7 +265,7 @@ final class StateController<Layout: ChatLayoutRepresentation> {
 
     func itemFrame(for itemPath: ItemPath, kind: ItemKind, at state: ModelState, isFinal: Bool = false, additionalAttributes: AdditionalLayoutAttributes? = nil) -> CGRect? {
         let additionalAttributes = additionalAttributes ?? AdditionalLayoutAttributes(layoutRepresentation)
-        let layout = layout(at: state)
+        let layout = self.layout(at: state)
         guard itemPath.section < layout.sections.count else {
             return nil
         }
@@ -304,7 +305,7 @@ final class StateController<Layout: ChatLayoutRepresentation> {
     }
 
     func sectionIdentifier(for index: Int, at state: ModelState) -> UUID? {
-        let layout = layout(at: state)
+        let layout = self.layout(at: state)
         guard index < layout.sections.count else {
             // This occurs when getting layout attributes for initial / final animations
             return nil
@@ -330,7 +331,7 @@ final class StateController<Layout: ChatLayoutRepresentation> {
     }
 
     func itemIdentifier(for itemPath: ItemPath, kind: ItemKind, at state: ModelState) -> UUID? {
-        let layout = layout(at: state)
+        let layout = self.layout(at: state)
         guard itemPath.section < layout.sections.count else {
             // This occurs when getting layout attributes for initial / final animations
             return nil
@@ -362,7 +363,7 @@ final class StateController<Layout: ChatLayoutRepresentation> {
     }
 
     func item(for itemPath: ItemPath, kind: ItemKind, at state: ModelState) -> ItemModel? {
-        let layout = layout(at: state)
+        let layout = self.layout(at: state)
         switch kind {
         case .header:
             guard itemPath.section < layout.sections.count,
@@ -624,7 +625,7 @@ final class StateController<Layout: ChatLayoutRepresentation> {
     }
 
     func contentSize(for state: ModelState) -> CGSize {
-        let contentHeight = contentHeight(at: state)
+        let contentHeight = self.contentHeight(at: state)
         guard contentHeight != 0 else {
             return .zero
         }
@@ -673,7 +674,7 @@ final class StateController<Layout: ChatLayoutRepresentation> {
     }
 
     private func allAttributes(at state: ModelState, visibleRect: CGRect? = nil) -> [ChatLayoutAttributes] {
-        let layout = layout(at: state)
+        let layout = self.layout(at: state)
         let additionalAttributes = AdditionalLayoutAttributes(layoutRepresentation)
 
         if let visibleRect = visibleRect {

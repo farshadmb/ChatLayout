@@ -70,7 +70,7 @@ final class DefaultChatController: ChatController {
     }
 
     private func appendConvertingToMessages(_ rawMessages: [RawMessage]) {
-        var messages = messages
+        var messages = self.messages
         messages.append(contentsOf: rawMessages)
         self.messages = messages.sorted(by: { $0.date.timeIntervalSince1970 < $1.date.timeIntervalSince1970 })
     }

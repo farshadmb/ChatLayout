@@ -148,7 +148,7 @@ struct LayoutModel {
     // MARK: To use only withing process(updateItems:)
 
     mutating func insertSection(_ section: SectionModel, at sectionIndex: Int) {
-        var sections = sections
+        var sections = self.sections
         guard sectionIndex <= sections.count else {
             assertionFailure("Incorrect section index.")
             return
